@@ -8,13 +8,9 @@ page. Each $watch() binding represents processing overhead that AngularJS will h
 during each $digest phase. By cutting down on the number of watchers, you can increase the
 performance of your AngularJS application.
 
-__Please grab bookmarklet from <a href="http://bennadel.github.io/Bookmarklet-Get-Watch-Count/demo/">Demo page</a>__:
+__Please grab bookmarklet from <a href="http://bennadel.github.io/Bookmarklet-Get-Watch-Count/demo/">Demo page</a>__.
 
-```
-javascript:alert('Watch Count: '+(function getWatchCount(){for(var e=document.querySelectorAll('.ng-scope'),t=0,r={},n=0;n<e.length;n++){var a=angular.element(e[n]).scope();r.hasOwnProperty(a.$id)||(r[a.$id]=!0,a.$$watchers&&(t+=a.$$watchers.length))}return t})());void(0);
-```
-
-This bookmarklet uses `document.querySelectorAll()`, so it may not work in older browsers. That
+The bookmarklet uses `document.querySelectorAll()`, so it may not work in older browsers. That
 said, it does not depend on jQuery - only AngularJS.
 
 _Note_: This is a spin-off of my [blog post, Counting The Number Of Watchers In AngularJS][blogpost].
