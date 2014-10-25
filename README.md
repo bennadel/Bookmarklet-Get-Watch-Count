@@ -8,7 +8,12 @@ page. Each $watch() binding represents processing overhead that AngularJS will h
 during each $digest phase. By cutting down on the number of watchers, you can increase the
 performance of your AngularJS application.
 
-__Bookmarklet__: <a href="javascript:alert('Watch Count: '+(function getWatchCount(){for(var e=document.querySelectorAll('.ng-scope'),t=0,r={},n=0;n<e.length;n++){var a=angular.element(e[n]).scope();r.hasOwnProperty(a.$id)||(r[a.$id]=!0,a.$$watchers&&(t+=a.$$watchers.length))}return t})());void(0);">Get $watch() Count</a>
+Since GitHub blocks inline A-tags, please grab bookmarklet from 
+<a href="http://bennadel.github.io/Bookmarklet-Get-Watch-Count/demo/">Demo page</a>.
+
+```
+javascript:alert('Watch Count: '+(function getWatchCount(){for(var e=document.querySelectorAll('.ng-scope'),t=0,r={},n=0;n<e.length;n++){var a=angular.element(e[n]).scope();r.hasOwnProperty(a.$id)||(r[a.$id]=!0,a.$$watchers&&(t+=a.$$watchers.length))}return t})());void(0);
+```
 
 This bookmarklet uses `document.querySelectorAll()`, so it may not work in older browsers. That
 said, it does not depend on jQuery - only AngularJS.
