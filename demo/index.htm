@@ -1,0 +1,66 @@
+<!doctype html>
+<html ng-app="App">
+<head>
+	<meta charset="utf-8" />
+	<title>
+		Counting The Number of Watch Bindings In AngularJS
+	</title>
+</head>
+<body ng-controller="AppController">
+
+	<h1>
+		Counting The Number of Watch Bindings In AngularJS
+	</h1>
+
+	<p>
+		<a href="javascript:alert( 'Watch count: ' + getWatchCount() );void(0);">Get watch count</a>.
+	</p>
+
+	<p>
+		I have {{ friends.length }} friends!
+	</p>
+
+	<ul>
+		<li 
+			ng-repeat="friend in friends" 
+			rel="{{ friend.id }}"
+			title="aka, {{ friend.nickname }}">
+
+			{{ friend.name }} is my friend; but, I call her <em>{{ friend.nickname }}</em>.
+
+		</li>
+	</ul>
+
+	<script type="text/javascript" src="./angular-1.2.22.min.js"></script>
+	<script type="text/javascript" src="../src/watch-count-1.0.js"></script>
+	<script type="text/javascript">
+
+		angular.module( "App", [] ).controller(
+			"AppController",
+			function( $scope ) {
+
+				$scope.friends = [
+					{
+						id: 1,
+						name: "Tricia",
+						nickname: "T-Bone"
+					},
+					{
+						id: 2,
+						name: "Sarah",
+						nickname: "Stubs"
+					},
+					{
+						id: 3,
+						name: "Joanna",
+						nickname: "The Boss"
+					}
+				];
+
+			}
+		);
+
+	</script>
+
+</body>
+</html>
