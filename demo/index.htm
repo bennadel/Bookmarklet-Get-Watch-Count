@@ -14,16 +14,17 @@
 
 	<p>
 		<strong>Bookmarklet</strong>:
-		<a href="javascript:alert('Watch%20Count:%20'+(function%20getWatchCount(){for(var%20e=document.querySelectorAll('.ng-scope'),t=0,r={},n=0;n<e.length;n++){var%20a=angular.element(e[n]).scope();r.hasOwnProperty(a.$id)||(r[a.$id]=!0,a.$$watchers&&(t+=a.$$watchers.length))}return%20t})());void(0);">Get watch count</a>.
+		<a bn-bookmarklet="alert('Watch Count:' + (BOOKMARKLET)() );">Get watch count</a>.
 	</p>
 
-	<p>
+	<p bn-isolate-scope>
 		I have {{ friends.length }} friends!
 	</p>
 
 	<ul>
 		<li 
 			ng-repeat="friend in friends" 
+			bn-isolate-scope
 			rel="{{ friend.id }}"
 			title="aka, {{ friend.nickname }}">
 
@@ -32,6 +33,12 @@
 		</li>
 	</ul>
 
+	<!-- 
+		Isolate scope restrictions are different in AngularJS 1.0.8 (and earlier). So, I
+		have this here to test on an earlier version of the framework.
+	
+		<script type="text/javascript" src="./angular-1.0.8.min.js"></script> 
+	-->
 	<script type="text/javascript" src="./angular-1.2.22.min.js"></script>
 	<script type="text/javascript">
 
@@ -56,6 +63,66 @@
 						nickname: "The Boss"
 					}
 				];
+
+			}
+		);
+
+		angular.module( "App" ).directive(
+			"bnIsolateScope",
+			function() {
+
+				function link( scope, element, attributes ) {
+
+					scope.$watch( "bar", angular.noop );
+
+				}
+
+				return({
+					link: link,
+					restrict: "A",
+					scope: {}
+				});
+
+			}
+		);
+
+		angular.module( "App" ).directive(
+			"bnBookmarklet",
+			function( $http ) {
+
+				// I link the JavaScript events to the local scope.
+				function link( scope, element, attributes ) {
+
+					// Load the minified JavaScript source for the bookmarklet.
+					var codeRequest = $http({
+						method: "get",
+						url: "../build/watch-count-1.1.min.js",
+						cache: false
+					});
+					
+					// When the JavaScript is available, inject it into the bookmarklet.
+					codeRequest.then(
+						function handleResolve( response ) {
+
+							var href = encodeURIComponent( attributes.bnBookmarklet );
+							var code = encodeURIComponent( response.data );
+							
+							element.attr( 
+								"href",
+								( "javascript:" + href.replace( "BOOKMARKLET", code ) + ";void(0);" )
+							);
+
+						}
+					);
+
+				}
+
+
+				// Return the directive configuration.
+				return({
+					link: link,
+					restrict: "A"
+				});
 
 			}
 		);
